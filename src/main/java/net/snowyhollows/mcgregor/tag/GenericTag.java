@@ -9,6 +9,8 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 /**
@@ -17,8 +19,49 @@ import java.util.List;
 public class GenericTag extends AbstractTag {
 	private final String tagName;
 
-	public GenericTag(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName) {
-		super(id, classNames, style, onClick, onChange, children);
+	public GenericTag(String id, String classNames, String style, Event.EventListener onclick, Event.EventListener onChange, List<Component> children, String tagName) {
+		super(id, classNames, style, onclick, onChange, children);
 		this.tagName = tagName;
+	}
+
+	public void render(Writer out)
+			throws IOException {
+		out.append('<');
+		out.append(tagName);
+		out.append(' ');
+		renderAttributes(out);
+		out.append('>');
+
+		renderChildren(out);
+		out.append("</");
+		out.append(tagName);
+		out.append('>');
+
+	}
+
+	void renderAttributes(Writer out)
+			throws IOException {
+		if (getId() != null && !getId().equals("")) {
+			renderAttribute(out, "id", getId());
+		}
+		renderAttribute(out,"class", getClassNames());
+		renderAttribute(out,"style", getStyle());
+	}
+
+	private void renderChildren(Writer out)
+			throws IOException {
+		for (Component component : getChildren()) {
+			component.render(out);
+		}
+	}
+
+	void renderAttribute(Writer out, String attr, String val)
+			throws IOException {
+		if (val == null) return;
+		out.append(attr);
+		out.append('=');
+		out.append('"');
+		out.append(val);
+		out.append('"');
 	}
 }

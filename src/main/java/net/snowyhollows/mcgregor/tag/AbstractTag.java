@@ -18,15 +18,63 @@ abstract class AbstractTag implements Component {
 	private String id;
 	private String classNames;
 	private String style;
-	private Event.EventListener onClick;
+	private Event.EventListener onclick;
 	private Event.EventListener onChange;
 	private List<Component> children;
 
-	public AbstractTag(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children) {
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getClassNames() {
+		return classNames;
+	}
+
+	public void setClassNames(String classNames) {
+		this.classNames = classNames;
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
+	public Event.EventListener getOnclick() {
+		return onclick;
+	}
+
+	public void setOnclick(Event.EventListener onclick) {
+		this.onclick = onclick;
+	}
+
+	public Event.EventListener getOnChange() {
+		return onChange;
+	}
+
+	public void setOnChange(Event.EventListener onChange) {
+		this.onChange = onChange;
+	}
+
+	public List<Component> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Component> children) {
+		this.children = children;
+	}
+
+	public AbstractTag(String id, String classNames, String style, Event.EventListener onclick, Event.EventListener onChange, List<Component> children) {
 		this.id = id;
 		this.classNames = classNames;
 		this.style = style;
-		this.onClick = onClick;
+		this.onclick = onclick;
 		this.onChange = onChange;
 		this.children = children;
 	}

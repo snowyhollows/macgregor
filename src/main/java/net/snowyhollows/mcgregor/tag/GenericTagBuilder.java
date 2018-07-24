@@ -6,8 +6,8 @@ public class GenericTagBuilder {
 	private String id;
 	private String classNames;
 	private String style;
-	private Event.EventListener onClick;
-	private Event.EventListener onChange;
+	private Event.EventListener onclick;
+	private Event.EventListener onchange;
 	private List<Component> children;
 	private String tagName;
 
@@ -26,13 +26,13 @@ public class GenericTagBuilder {
 		return this;
 	}
 
-	public GenericTagBuilder setOnClick(Event.EventListener onClick) {
-		this.onClick = onClick;
+	public GenericTagBuilder setOnclick(Event.EventListener onclick) {
+		this.onclick = onclick;
 		return this;
 	}
 
-	public GenericTagBuilder setOnChange(Event.EventListener onChange) {
-		this.onChange = onChange;
+	public GenericTagBuilder setOnchange(Event.EventListener onchange) {
+		this.onchange = onchange;
 		return this;
 	}
 
@@ -47,6 +47,6 @@ public class GenericTagBuilder {
 	}
 
 	public GenericTag createGenericTag() {
-		return new GenericTag(id, classNames, style, onClick, onChange, children, tagName);
+		return new GenericTag(id, classNames, style, onclick, onchange, children, tagName);
 	}
 }

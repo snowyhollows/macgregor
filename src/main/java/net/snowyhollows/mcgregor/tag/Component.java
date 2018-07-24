@@ -9,8 +9,12 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * @author efildre
  */
 public interface Component {
+	void render(Writer out) throws IOException;
 }

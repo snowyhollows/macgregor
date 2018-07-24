@@ -9,13 +9,25 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * @author efildre
  */
 public class HtmlText implements Component {
+	public String getText() {
+		return text;
+	}
+
 	private final String text;
 
 	public HtmlText(String text) {
 		this.text = text;
+	}
+
+	public void render(Writer out)
+			throws IOException {
+		out.append(text);
 	}
 }
