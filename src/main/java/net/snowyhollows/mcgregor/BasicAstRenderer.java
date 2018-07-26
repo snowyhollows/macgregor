@@ -21,7 +21,9 @@ public class BasicAstRenderer {
 	private String builderFromTagName(String t) {
 		switch (t) {
 			case "##text": return "new net.snowyhollows.mcgregor.tag.HtmlTextBuilder()";
+			case "select": return "new net.snowyhollows.mcgregor.tag.SelectBuilder()";
 			case "input": return "new net.snowyhollows.mcgregor.tag.InputBuilder()";
+			case "option": return "new net.snowyhollows.mcgregor.tag.OptionBuilder()";
 			default: return "new net.snowyhollows.mcgregor.tag.GenericTagBuilder().setTagName(\"" + t + "\")";
 		}
 	}
@@ -29,7 +31,9 @@ public class BasicAstRenderer {
 	private String createFromTagName(String t) {
 		switch (t) {
 			case "##text": return "createHtmlText()";
+			case "select": return "createSelect()";
 			case "input": return "createInput()";
+			case "option": return "createOption()";
 			default: return "createGenericTag()";
 		}
 	}
@@ -57,15 +61,36 @@ public class BasicAstRenderer {
 				+ attributes.entrySet().stream()
 					.filter(e -> !e.getKey().startsWith("x-"))
 					.map(e ->
-					String.format(".set%s(%s)", capitalize(e.getKey()), processValue(e.getValue()))).collect(Collectors.joining())
+					String.format(".set%s(%s)", prepareSetterName(e.getKey()), processValue(e.getValue()))).collect(Collectors.joining())
 				+ ordinaryChildren
 				+ "." + createFromTagName(name);
+	}
+
+	private String prepareSetterName(String key) {
+		switch (key) {
+			case "class": return "ClassNames";
+			default: return capitalize(key);
+		}
 	}
 
 	private void consumeBrackets (PushbackReader input)
 			throws IOException {
 		input.read();
 		input.read();
+	}
+
+	private void consumeWhitespace (PushbackReader input)
+			throws IOException {
+		while (true) {
+			int x = input.read();
+			if (x == -1) {
+				return;
+			}
+			if (!Character.isWhitespace((char)x)) {
+				input.unread(x);
+				return;
+			}
+		}
 	}
 
 	private boolean hasNextDelimiterTwice (PushbackReader input, char delimiter)
@@ -141,6 +166,7 @@ public class BasicAstRenderer {
 			throws IOException {
 		if (hasNextCode(input)) {
 			consumeBrackets(input);
+			consumeWhitespace(input);
 			consumeCode(result, input);
 			consumeBrackets(input);
 		} else {

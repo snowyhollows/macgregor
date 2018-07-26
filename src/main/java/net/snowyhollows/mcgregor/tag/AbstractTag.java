@@ -10,17 +10,19 @@
 package net.snowyhollows.mcgregor.tag;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author efildre
  */
-abstract class AbstractTag implements Component {
+abstract class AbstractTag implements Container {
 	private String id;
 	private String classNames;
 	private String style;
 	private Event.EventListener onclick;
-	private Event.EventListener onChange;
+	private Event.EventListener onchange;
 	private List<Component> children;
+	private String key;
 
 	public String getId() {
 		return id;
@@ -54,12 +56,12 @@ abstract class AbstractTag implements Component {
 		this.onclick = onclick;
 	}
 
-	public Event.EventListener getOnChange() {
-		return onChange;
+	public Event.EventListener getOnchange() {
+		return onchange;
 	}
 
-	public void setOnChange(Event.EventListener onChange) {
-		this.onChange = onChange;
+	public void setOnchange(Event.EventListener onchange) {
+		this.onchange = onchange;
 	}
 
 	public List<Component> getChildren() {
@@ -70,12 +72,30 @@ abstract class AbstractTag implements Component {
 		this.children = children;
 	}
 
-	public AbstractTag(String id, String classNames, String style, Event.EventListener onclick, Event.EventListener onChange, List<Component> children) {
+	public AbstractTag(String id, String classNames, String style, Event.EventListener onclick, Event.EventListener onchange, List<Component> children) {
 		this.id = id;
 		this.classNames = classNames;
 		this.style = style;
 		this.onclick = onclick;
-		this.onChange = onChange;
+		this.onchange = onchange;
 		this.children = children;
+	}
+
+	@Override
+	public void visit(Consumer<Component> consumer) {
+		consumer.accept(this);
+		if (children != null) {
+			children.forEach(c -> c.visit(consumer));
+		}
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	@Override
+	public void setKey(String key) {
+		this.key = key;
 	}
 }

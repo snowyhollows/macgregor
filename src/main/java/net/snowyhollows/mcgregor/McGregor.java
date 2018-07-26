@@ -19,10 +19,8 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.type.TypeVisitor;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.FileObject;
@@ -33,9 +31,6 @@ import net.snowyhollows.mcgregor.api.Tree;
 
 public class McGregor extends AbstractProcessor {
 
-//    private final static ClassName BENTO_FACTORY = ClassName.get(BentoFactory.class.getPackage().getName(), BentoFactory.class.getSimpleName());
-//    private final static ClassName STRING = ClassName.get("java.lang", "String");
-//
     private Filer filer;
     private Messager messager;
     private Types types;
@@ -134,88 +129,10 @@ public class McGregor extends AbstractProcessor {
 	        }
         }
 
-//            boolean first = true;
-//            for (VariableElement param : constructor.getParameters()) {
-//                TypeMirror tm = param.asType();
-//
-//                if (!first) {
-//                    createInContext.addCode(", ");
-//                }
-//
-//                ByName byName = param.getAnnotation(ByName.class);
-//                ByFactory byFactory = param.getAnnotation(ByFactory.class);
-//
-//                TypeName typeName = TypeName.get(tm);
-//                boolean isEnum = !typeName.isPrimitive() && types.asElement(tm).getKind() == ElementKind.ENUM;
-//                boolean isByName = byName != null || typeName.isPrimitive() || typeName.equals(STRING) || isEnum;
-//
-//                if (isByName) {
-//                    String nameToGet = (byName == null || byName.value().equals("##")) ?
-//                            param.getSimpleName().toString()
-//                            : byName.value();
-//
-//                    String call = null;
-//                    if (typeName.equals(TypeName.FLOAT)) {
-//                        call = "bento.getFloat($S)";
-//                    } else if (typeName.equals(TypeName.INT)) {
-//                        call = "bento.getInt($S)";
-//                    } else if (typeName.equals(TypeName.BOOLEAN)) {
-//                        call = "bento.getBoolean($S)";
-//                    } else if (typeName.equals(STRING)) {
-//                        call = "bento.getString($S)";
-//                    } else if (isEnum) {
-//                        call = "bento.getEnum($T.class, $S)";
-//                    } else {
-//                        call = "bento.get($S)";
-//                    }
-//                    if (!isEnum) {
-//                        createInContext.addCode(call, nameToGet);
-//                    } else {
-//                        createInContext.addCode(call, ClassName.get(tm), nameToGet);
-//                    }
-//
-//                } else {
-//                    if (byFactory == null) {
-//                        createInContext.addCode("bento.get($T.IT)", nameFor((ClassName) ClassName.get(tm), "Factory"));
-//                    } else {
-//                        TypeMirror typeMirror = getT(byFactory);
-//                        TypeElement element = (TypeElement)types.asElement(typeMirror);
-//                        if (!element.getQualifiedName().toString().equals(DefaultFactory.class.getCanonicalName())) {
-//                            createInContext.addCode("bento.get($T.IT)", ClassName.get(element));
-//                        } else {
-//                            createInContext.addCode("bento.get($T.IT)", nameFor((ClassName) ClassName.get(tm), "Factory"));
-//                        }
-//                    }
-//                }
-//
-//                first = false;
-//            }
-//
-//            createInContext.addCode(");\n");
-//
-//            TypeSpec.Builder factory = TypeSpec.enumBuilder(factoryName)
-//                    .addModifiers(Modifier.PUBLIC)
-//                    .addEnumConstant("IT")
-//                    .addSuperinterface(bentoFactoryParametrized)
-//                    .addMethod(createInContext.build());
-//
-//        }
         return true;
 
     }
 
-//    private static TypeMirror getT(ByFactory byFactory) {
-//        try
-//        {
-//            byFactory.value();
-//        }
-//        catch( MirroredTypeException mte )
-//        {
-//            return mte.getTypeMirror();
-//        }
-//        return null;
-//    }
-//
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         return Collections.singleton(Tree.class.getName());

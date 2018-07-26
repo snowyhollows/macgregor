@@ -11,10 +11,17 @@ package net.snowyhollows.mcgregor.tag;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.function.Consumer;
 
 /**
  * @author efildre
  */
 public interface Component {
 	void render(Writer out) throws IOException;
+	void setKey(String k);
+	String getKey();
+
+	default void visit(Consumer<Component> consumer) {
+		consumer.accept(this);
+	}
 }

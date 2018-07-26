@@ -9,27 +9,12 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import java.util.List;
+
 /**
  * @author efildre
  */
-public class Event {
-	public interface EventListener {
-		void onEvent(Event event);
-	}
-
-	public final String sourceKey;
-	public final String value;
-
-	public Event(String sourceKey, String value) {
-		this.sourceKey = sourceKey;
-		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return "Event{" +
-				"sourceKey='" + sourceKey + '\'' +
-				", value='" + value + '\'' +
-				'}';
-	}
+public interface Container extends Component {
+	List<Component> getChildren();
+	void setChildren(List<Component> children);
 }

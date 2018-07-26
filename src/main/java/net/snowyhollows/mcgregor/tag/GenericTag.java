@@ -26,13 +26,20 @@ public class GenericTag extends AbstractTag {
 
 	public void render(Writer out)
 			throws IOException {
+		render(tagName, out);
+	}
+
+	void render(String tagName, Writer out)
+			throws IOException {
 		out.append('<');
 		out.append(tagName);
 		out.append(' ');
 		renderAttributes(out);
 		out.append('>');
 
-		renderChildren(out);
+		if (getChildren() != null) {
+			renderChildren(out);
+		}
 		out.append("</");
 		out.append(tagName);
 		out.append('>');
@@ -46,6 +53,9 @@ public class GenericTag extends AbstractTag {
 		}
 		renderAttribute(out,"class", getClassNames());
 		renderAttribute(out,"style", getStyle());
+		if (this.getOnclick() != null) {
+			renderAttribute(out, "onclick", "mc_click('" + this.getKey() + "')");
+		}
 	}
 
 	private void renderChildren(Writer out)

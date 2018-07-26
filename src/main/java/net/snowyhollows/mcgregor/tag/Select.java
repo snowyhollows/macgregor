@@ -16,10 +16,10 @@ import java.util.List;
 /**
  * @author efildre
  */
-public class Input extends GenericTag {
+public class Select extends GenericTag {
 	private final String value;
 
-	public Input(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, String value) {
+	public Select(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, String value) {
 		super(id, classNames, style, onClick, onChange, children, tagName);
 		this.value = value;
 	}
@@ -27,7 +27,7 @@ public class Input extends GenericTag {
 	@Override
 	public void render(Writer out)
 			throws IOException {
-		super.render("input", out);
+		super.render("select", out);
 	}
 
 	@Override

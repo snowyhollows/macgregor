@@ -20,6 +20,7 @@ public class HtmlText implements Component {
 		return text;
 	}
 
+
 	private final String text;
 
 	public HtmlText(String text) {
@@ -29,5 +30,14 @@ public class HtmlText implements Component {
 	public void render(Writer out)
 			throws IOException {
 		out.append(text);
+	}
+
+	@Override
+	public void setKey(String k) {
+	}
+
+	@Override
+	public String getKey() {
+		return null;
 	}
 }

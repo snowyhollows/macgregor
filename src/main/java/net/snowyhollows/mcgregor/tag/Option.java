@@ -16,29 +16,27 @@ import java.util.List;
 /**
  * @author efildre
  */
-public class Input extends GenericTag {
-	private final String value;
+public class Option extends GenericTag {
 
-	public Input(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, String value) {
+	private boolean selected;
+
+	public Option(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, boolean selected) {
 		super(id, classNames, style, onClick, onChange, children, tagName);
-		this.value = value;
+		this.selected = selected;
 	}
 
 	@Override
 	public void render(Writer out)
 			throws IOException {
-		super.render("input", out);
+		super.render("option", out);
 	}
 
 	@Override
 	void renderAttributes(Writer out)
 			throws IOException {
 		super.renderAttributes(out);
-		if (this.getOnchange() != null) {
-			renderAttribute(out, "onchange", "mc_change('" + this.getKey() + "', this.value)");
-		}
-		if (this.value != null) {
-			renderAttribute(out, "value", this.value);
+		if (selected) {
+			renderAttribute(out,"selected","selected");
 		}
 	}
 }

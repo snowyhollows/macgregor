@@ -6,8 +6,8 @@ public class InputBuilder {
 	private String id;
 	private String classNames;
 	private String style;
-	private Event.EventListener onClick;
-	private Event.EventListener onChange;
+	private Event.EventListener onclick;
+	private Event.EventListener onchange;
 	private List<Component> children;
 	private String tagName;
 	private String value;
@@ -27,13 +27,13 @@ public class InputBuilder {
 		return this;
 	}
 
-	public InputBuilder setOnClick(Event.EventListener onClick) {
-		this.onClick = onClick;
+	public InputBuilder setOnclick(Event.EventListener onclick) {
+		this.onclick = onclick;
 		return this;
 	}
 
-	public InputBuilder setOnChange(Event.EventListener onChange) {
-		this.onChange = onChange;
+	public InputBuilder setOnchange(Event.EventListener onchange) {
+		this.onchange = onchange;
 		return this;
 	}
 
@@ -53,6 +53,6 @@ public class InputBuilder {
 	}
 
 	public Input createInput() {
-		return new Input(id, classNames, style, onClick, onChange, children, tagName, value);
+		return new Input(id, classNames, style, onclick, onchange, children, tagName, value);
 	}
 }
