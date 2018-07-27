@@ -13,16 +13,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import net.snowyhollows.mcgregor.Event;
+
 /**
  * @author efildre
  */
 public class Select extends GenericTag {
-	private final String value;
-
-	public Select(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, String value) {
-		super(id, classNames, style, onClick, onChange, children, tagName);
-		this.value = value;
-	}
+	private String value;
 
 	@Override
 	public void render(Writer out)
@@ -40,5 +37,54 @@ public class Select extends GenericTag {
 		if (this.value != null) {
 			renderAttribute(out, "value", this.value);
 		}
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public Select setValue(String value) {
+		this.value = value;
+		return this;
+	}
+
+	@Override
+	public Select setTagName(String tagName) {
+		return (Select) super.setTagName(tagName);
+	}
+
+	@Override
+	public Select setId(String id) {
+		return (Select) super.setId(id);
+	}
+
+	@Override
+	public Select setClassNames(String classNames) {
+		return (Select) super.setClassNames(classNames);
+	}
+
+	@Override
+	public Select setStyle(String style) {
+		return (Select) super.setStyle(style);
+	}
+
+	@Override
+	public Select setOnclick(Event.EventListener onclick) {
+		return (Select) super.setOnclick(onclick);
+	}
+
+	@Override
+	public Select setOnchange(Event.EventListener onchange) {
+		return (Select) super.setOnchange(onchange);
+	}
+
+	@Override
+	public Select setKey(String key) {
+		return (Select) super.setKey(key);
+	}
+
+	@Override
+	public Select setChildren(List<Component> children) {
+		return (Select) super.setChildren(children);
 	}
 }

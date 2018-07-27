@@ -9,84 +9,64 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
-import java.util.List;
 import java.util.function.Consumer;
+
+import net.snowyhollows.mcgregor.Event;
 
 /**
  * @author efildre
  */
-abstract class AbstractTag implements Container {
+abstract class AbstractTag extends PureContainer {
 	private String id;
 	private String classNames;
 	private String style;
 	private Event.EventListener onclick;
 	private Event.EventListener onchange;
-	private List<Component> children;
 	private String key;
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public AbstractTag setId(String id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getClassNames() {
 		return classNames;
 	}
 
-	public void setClassNames(String classNames) {
+	public AbstractTag setClassNames(String classNames) {
 		this.classNames = classNames;
+		return this;
 	}
 
 	public String getStyle() {
 		return style;
 	}
 
-	public void setStyle(String style) {
+	public AbstractTag setStyle(String style) {
 		this.style = style;
+		return this;
 	}
 
 	public Event.EventListener getOnclick() {
 		return onclick;
 	}
 
-	public void setOnclick(Event.EventListener onclick) {
+	public AbstractTag setOnclick(Event.EventListener onclick) {
 		this.onclick = onclick;
+		return this;
 	}
 
 	public Event.EventListener getOnchange() {
 		return onchange;
 	}
 
-	public void setOnchange(Event.EventListener onchange) {
+	public AbstractTag setOnchange(Event.EventListener onchange) {
 		this.onchange = onchange;
-	}
-
-	public List<Component> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<Component> children) {
-		this.children = children;
-	}
-
-	public AbstractTag(String id, String classNames, String style, Event.EventListener onclick, Event.EventListener onchange, List<Component> children) {
-		this.id = id;
-		this.classNames = classNames;
-		this.style = style;
-		this.onclick = onclick;
-		this.onchange = onchange;
-		this.children = children;
-	}
-
-	@Override
-	public void visit(Consumer<Component> consumer) {
-		consumer.accept(this);
-		if (children != null) {
-			children.forEach(c -> c.visit(consumer));
-		}
+		return this;
 	}
 
 	@Override
@@ -95,7 +75,8 @@ abstract class AbstractTag implements Container {
 	}
 
 	@Override
-	public void setKey(String key) {
+	public AbstractTag setKey(String key) {
 		this.key = key;
+		return this;
 	}
 }

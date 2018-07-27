@@ -13,15 +13,21 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import net.snowyhollows.mcgregor.Event;
+
 /**
  * @author efildre
  */
 public class Input extends GenericTag {
-	private final String value;
+	private String value;
 
-	public Input(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, String value) {
-		super(id, classNames, style, onClick, onChange, children, tagName);
+	public String getValue() {
+		return value;
+	}
+
+	public Input setValue(String value) {
 		this.value = value;
+		return this;
 	}
 
 	@Override
@@ -40,5 +46,45 @@ public class Input extends GenericTag {
 		if (this.value != null) {
 			renderAttribute(out, "value", this.value);
 		}
+	}
+
+	@Override
+	public Input setTagName(String tagName) {
+		return (Input) super.setTagName(tagName);
+	}
+
+	@Override
+	public Input setId(String id) {
+		return (Input) super.setId(id);
+	}
+
+	@Override
+	public Input setClassNames(String classNames) {
+		return (Input) super.setClassNames(classNames);
+	}
+
+	@Override
+	public Input setStyle(String style) {
+		return (Input) super.setStyle(style);
+	}
+
+	@Override
+	public Input setOnclick(Event.EventListener onclick) {
+		return (Input) super.setOnclick(onclick);
+	}
+
+	@Override
+	public Input setOnchange(Event.EventListener onchange) {
+		return (Input) super.setOnchange(onchange);
+	}
+
+	@Override
+	public Input setKey(String key) {
+		return (Input) super.setKey(key);
+	}
+
+	@Override
+	public Input setChildren(List<Component> children) {
+		return (Input) super.setChildren(children);
 	}
 }

@@ -7,29 +7,20 @@
  * which the program(s) have been supplied.
  *
  */
-package net.snowyhollows.mcgregor.tag;
+package net.snowyhollows.mcgregor;
 
 /**
  * @author efildre
  */
-public class Event {
-	public interface EventListener {
-		void onEvent(Event event);
+public class KeyCreator {
+	private long i;
+	private final String base;
+
+	public KeyCreator(String base) {
+		this.base = base;
 	}
 
-	public final String sourceKey;
-	public final String value;
-
-	public Event(String sourceKey, String value) {
-		this.sourceKey = sourceKey;
-		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return "Event{" +
-				"sourceKey='" + sourceKey + '\'' +
-				", value='" + value + '\'' +
-				'}';
+	public String create() {
+		return base + ":" + ( i++ );
 	}
 }

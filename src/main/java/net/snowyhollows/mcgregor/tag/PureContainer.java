@@ -11,34 +11,35 @@ package net.snowyhollows.mcgregor.tag;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 /**
  * @author efildre
  */
-public class HtmlText implements Component {
-	private String text;
+public class PureContainer implements Container {
+	private List<Component> children;
 
+	@Override
 	public void render(Writer out)
 			throws IOException {
-		out.append(text);
+		renderChildren(out);
 	}
 
-	public String getText() {
-		return text;
-	}
-
-	public HtmlText setText(String text) {
-		this.text = text;
-		return this;
-	}
-
-	@Override
-	public HtmlText setKey(String k) {
-		return this;
+	void renderChildren(Writer out)
+			throws IOException {
+		for (Component component : getChildren()) {
+			component.render(out);
+		}
 	}
 
 	@Override
-	public String getKey() {
-		return null;
+	public List<Component> getChildren() {
+		return children;
+	}
+
+	@Override
+	public PureContainer setChildren(List<Component> children) {
+		this.children = children;
+		return this;
 	}
 }

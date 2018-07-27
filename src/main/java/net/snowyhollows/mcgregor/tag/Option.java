@@ -13,17 +13,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import net.snowyhollows.mcgregor.Event;
+
 /**
  * @author efildre
  */
 public class Option extends GenericTag {
 
 	private boolean selected;
-
-	public Option(String id, String classNames, String style, Event.EventListener onClick, Event.EventListener onChange, List<Component> children, String tagName, boolean selected) {
-		super(id, classNames, style, onClick, onChange, children, tagName);
-		this.selected = selected;
-	}
 
 	@Override
 	public void render(Writer out)
@@ -38,5 +35,54 @@ public class Option extends GenericTag {
 		if (selected) {
 			renderAttribute(out,"selected","selected");
 		}
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public Option setSelected(boolean selected) {
+		this.selected = selected;
+		return this;
+	}
+
+	@Override
+	public Option setTagName(String tagName) {
+		return (Option) super.setTagName(tagName);
+	}
+
+	@Override
+	public Option setId(String id) {
+		return (Option) super.setId(id);
+	}
+
+	@Override
+	public Option setClassNames(String classNames) {
+		return (Option) super.setClassNames(classNames);
+	}
+
+	@Override
+	public Option setStyle(String style) {
+		return (Option) super.setStyle(style);
+	}
+
+	@Override
+	public Option setOnclick(Event.EventListener onclick) {
+		return (Option) super.setOnclick(onclick);
+	}
+
+	@Override
+	public Option setOnchange(Event.EventListener onchange) {
+		return (Option) super.setOnchange(onchange);
+	}
+
+	@Override
+	public Option setKey(String key) {
+		return (Option) super.setKey(key);
+	}
+
+	@Override
+	public Option setChildren(List<Component> children) {
+		return (Option) super.setChildren(children);
 	}
 }

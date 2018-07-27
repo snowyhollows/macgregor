@@ -7,21 +7,29 @@
  * which the program(s) have been supplied.
  *
  */
-package net.snowyhollows.mcgregor.tag;
-
-import java.util.List;
-import java.util.function.Consumer;
+package net.snowyhollows.mcgregor;
 
 /**
  * @author efildre
  */
-public interface Container extends Component {
-	List<Component> getChildren();
-	Component setChildren(List<Component> children);
-	default void visit(Consumer<Component> consumer) {
-		consumer.accept(this);
-		if (getChildren() != null) {
-			getChildren().forEach(c -> c.visit(consumer));
-		}
+public class Event {
+	public interface EventListener {
+		void onEvent(Event event);
+	}
+
+	public final String sourceKey;
+	public final String value;
+
+	public Event(String sourceKey, String value) {
+		this.sourceKey = sourceKey;
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "Event{" +
+				"sourceKey='" + sourceKey + '\'' +
+				", value='" + value + '\'' +
+				'}';
 	}
 }

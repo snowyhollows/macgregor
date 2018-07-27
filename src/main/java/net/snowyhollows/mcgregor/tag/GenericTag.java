@@ -13,16 +13,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import net.snowyhollows.mcgregor.Event;
+
 /**
  * @author efildre
  */
 public class GenericTag extends AbstractTag {
-	private final String tagName;
-
-	public GenericTag(String id, String classNames, String style, Event.EventListener onclick, Event.EventListener onChange, List<Component> children, String tagName) {
-		super(id, classNames, style, onclick, onChange, children);
-		this.tagName = tagName;
-	}
+	private String tagName;
 
 	public void render(Writer out)
 			throws IOException {
@@ -58,13 +55,6 @@ public class GenericTag extends AbstractTag {
 		}
 	}
 
-	private void renderChildren(Writer out)
-			throws IOException {
-		for (Component component : getChildren()) {
-			component.render(out);
-		}
-	}
-
 	void renderAttribute(Writer out, String attr, String val)
 			throws IOException {
 		if (val == null) return;
@@ -73,5 +63,49 @@ public class GenericTag extends AbstractTag {
 		out.append('"');
 		out.append(val);
 		out.append('"');
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public GenericTag setTagName(String tagName) {
+		this.tagName = tagName;
+		return this;
+	}
+
+	@Override
+	public GenericTag setId(String id) {
+		return (GenericTag) super.setId(id);
+	}
+
+	@Override
+	public GenericTag setClassNames(String classNames) {
+		return (GenericTag) super.setClassNames(classNames);
+	}
+
+	@Override
+	public GenericTag setStyle(String style) {
+		return (GenericTag) super.setStyle(style);
+	}
+
+	@Override
+	public GenericTag setOnclick(Event.EventListener onclick) {
+		return (GenericTag) super.setOnclick(onclick);
+	}
+
+	@Override
+	public GenericTag setOnchange(Event.EventListener onchange) {
+		return (GenericTag) super.setOnchange(onchange);
+	}
+
+	@Override
+	public GenericTag setKey(String key) {
+		return (GenericTag) super.setKey(key);
+	}
+
+	@Override
+	public GenericTag setChildren(List<Component> children) {
+		return (GenericTag) super.setChildren(children);
 	}
 }

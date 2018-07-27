@@ -20,22 +20,16 @@ public class BasicAstRenderer {
 
 	private String builderFromTagName(String t) {
 		switch (t) {
-			case "##text": return "new net.snowyhollows.mcgregor.tag.HtmlTextBuilder()";
-			case "select": return "new net.snowyhollows.mcgregor.tag.SelectBuilder()";
-			case "input": return "new net.snowyhollows.mcgregor.tag.InputBuilder()";
-			case "option": return "new net.snowyhollows.mcgregor.tag.OptionBuilder()";
-			default: return "new net.snowyhollows.mcgregor.tag.GenericTagBuilder().setTagName(\"" + t + "\")";
+			case "##text": return "new net.snowyhollows.mcgregor.tag.HtmlText()";
+			case "select": return "new net.snowyhollows.mcgregor.tag.Select()";
+			case "input": return "new net.snowyhollows.mcgregor.tag.Input()";
+			case "option": return "new net.snowyhollows.mcgregor.tag.Option()";
+			default: return "new net.snowyhollows.mcgregor.tag.GenericTag().setTagName(\"" + t + "\")";
 		}
 	}
 
 	private String createFromTagName(String t) {
-		switch (t) {
-			case "##text": return "createHtmlText()";
-			case "select": return "createSelect()";
-			case "input": return "createInput()";
-			case "option": return "createOption()";
-			default: return "createGenericTag()";
-		}
+		return "";
 	}
 
 	private String capitalize(String t) {
@@ -46,7 +40,7 @@ public class BasicAstRenderer {
 		String name = componentDescription.getName();
 		List<ComponentDescription> children = componentDescription.getChildren();
 		Map<String, String> attributes = componentDescription.getAttributes();
-		String singleChildrenList = " java.util.Arrays.asList(" + children.stream().map(c -> render(c)).collect(Collectors.joining(", ")) + ")";
+		String singleChildrenList = " java.util.Arrays.asList(\n" + children.stream().map(c -> render(c)).collect(Collectors.joining(", ")) + ")";
 		String childrenList = null;
 		if (attributes.containsKey("x-list")) {
 			String variable = attributes.get("x-variable");
@@ -58,12 +52,12 @@ public class BasicAstRenderer {
 		String ordinaryChildren = (!children.isEmpty() ? ".setChildren(" + childrenList + ")" : "");
 
 		return builderFromTagName(componentDescription.getName())
+				+ ".setKey(keys.create())"
 				+ attributes.entrySet().stream()
 					.filter(e -> !e.getKey().startsWith("x-"))
 					.map(e ->
 					String.format(".set%s(%s)", prepareSetterName(e.getKey()), processValue(e.getValue()))).collect(Collectors.joining())
-				+ ordinaryChildren
-				+ "." + createFromTagName(name);
+				+ ordinaryChildren;
 	}
 
 	private String prepareSetterName(String key) {

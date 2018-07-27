@@ -17,9 +17,15 @@ import java.util.function.Consumer;
  * @author efildre
  */
 public interface Component {
+	default Component setKey(String k)  {
+		return this;
+	}
+
+	default String getKey() {
+		return null;
+	}
+
 	void render(Writer out) throws IOException;
-	void setKey(String k);
-	String getKey();
 
 	default void visit(Consumer<Component> consumer) {
 		consumer.accept(this);
