@@ -21,9 +21,9 @@ public class BasicAstRenderer {
 	private String builderFromTagName(String t) {
 		switch (t) {
 			case "##text": return "new net.snowyhollows.mcgregor.tag.HtmlText()";
-			case "select": return "new net.snowyhollows.mcgregor.tag.Select()";
-			case "input": return "new net.snowyhollows.mcgregor.tag.Input()";
-			case "option": return "new net.snowyhollows.mcgregor.tag.Option()";
+//			case "select": return "new net.snowyhollows.mcgregor.tag.Select()";
+//			case "input": return "new net.snowyhollows.mcgregor.tag.Input()";
+//			case "option": return "new net.snowyhollows.mcgregor.tag.Option()";
 			default: return "new net.snowyhollows.mcgregor.tag.GenericTag().setTagName(\"" + t + "\")";
 		}
 	}
@@ -56,15 +56,43 @@ public class BasicAstRenderer {
 				+ attributes.entrySet().stream()
 					.filter(e -> !e.getKey().startsWith("x-"))
 					.map(e ->
-					String.format(".set%s(%s)", prepareSetterName(e.getKey()), processValue(e.getValue()))).collect(Collectors.joining())
+					String.format(getAttributeSetterFormat(name, e.getKey()), prepareSetterName(name, e.getKey()), processValue(e.getValue()))).collect(Collectors.joining())
 				+ ordinaryChildren;
 	}
 
-	private String prepareSetterName(String key) {
-		switch (key) {
-			case "class": return "ClassNames";
-			default: return capitalize(key);
+	public String getAttributeSetterFormat(String tagName, String attr) {
+		if (isGenericAttribute(tagName, attr)) {
+			return ".setGenericAttr(%s, %s)";
+		} else {
+			return ".set%s(%s)";
 		}
+	}
+
+	private String prepareSetterName(String tagName, String attr) {
+		if (isGenericAttribute(tagName, attr)) {
+			return '\"' + attr + '\"';
+		}
+		switch (attr) {
+			case "class": return "ClassNames";
+			default: return capitalize(attr);
+		}
+	}
+
+	private boolean isGenericAttribute(String tagName, String attr) {
+	    if (tagName.equals("##text")) {
+	        return false;
+        } else {
+            switch (attr) {
+                case "class":
+                case "value":
+                case "onclick":
+                case "onchange":
+                case "selected":
+                    return false;
+                default:
+                    return true;
+            }
+        }
 	}
 
 	private void consumeBrackets (PushbackReader input)

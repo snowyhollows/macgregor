@@ -82,13 +82,18 @@ public class McGregor extends AbstractProcessor {
 
 		        String relativeName = "src/main/java/" + (templateName.startsWith("/") ? templateName : packageName.replace('.','/') + "/" + templateName);
 		        File resourceFile = new File(baseSourcesDir, relativeName);
+				messager.printMessage(Diagnostic.Kind.NOTE, "found file: " + resourceFile);
 
 		        fileReader = new FileInputStream(resourceFile);
 
+				messager.printMessage(Diagnostic.Kind.NOTE, "start processing");
 		        ComponentDescription a = AstBuilder.process(fileReader);
+				messager.printMessage(Diagnostic.Kind.NOTE, "end processing");
 		        BasicAstRenderer basicAstRenderer = new BasicAstRenderer();
 		        build.addStatement("$T keys = new $T(getKey());", KeyCreator.class, KeyCreator.class);
+				messager.printMessage(Diagnostic.Kind.NOTE, "start rendering");
 		        build.addStatement("return java.util.Collections.singletonList(" + basicAstRenderer.render(a) + ")");
+				messager.printMessage(Diagnostic.Kind.NOTE, "end rendering");
 
 	        } catch (IOException e) {
 		        throw new RuntimeException(e);
@@ -102,6 +107,7 @@ public class McGregor extends AbstractProcessor {
 		        }
 	        }
 
+			messager.printMessage(Diagnostic.Kind.NOTE, "start writing");
 	        TypeSpec.Builder factory = TypeSpec.classBuilder(builderName)
 	                .addModifiers(Modifier.PUBLIC)
 	                .superclass(beanClassName)
@@ -109,6 +115,7 @@ public class McGregor extends AbstractProcessor {
 
 	        try {
 		        JavaFile.builder(packageName, factory.build()).build().writeTo(filer);
+				messager.printMessage(Diagnostic.Kind.NOTE, "end writing");
 	        } catch (IOException e) {
 		        throw new RuntimeException(e);
 	        }

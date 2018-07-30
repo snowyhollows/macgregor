@@ -24,4 +24,8 @@ public interface Container extends Component {
 			getChildren().forEach(c -> c.visit(consumer));
 		}
 	}
+
+	default boolean areAllChildrenIdentifiableOnClient() {
+		return getChildren().stream().allMatch(c -> c.isIdentifiableOnClient());
+	}
 }

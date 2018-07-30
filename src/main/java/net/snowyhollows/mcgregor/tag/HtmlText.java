@@ -9,6 +9,8 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import net.snowyhollows.mcgregor.tag.helper.HtmlWriter;
+
 import java.io.IOException;
 import java.io.Writer;
 
@@ -17,11 +19,6 @@ import java.io.Writer;
  */
 public class HtmlText implements Component {
 	private String text;
-
-	public void render(Writer out)
-			throws IOException {
-		out.append(text);
-	}
 
 	public String getText() {
 		return text;
@@ -40,5 +37,15 @@ public class HtmlText implements Component {
 	@Override
 	public String getKey() {
 		return null;
+	}
+
+	@Override
+	public void render(HtmlWriter out) throws IOException {
+		out.writeText(text);
+	}
+
+	@Override
+	public boolean isIdentifiableOnClient() {
+		return false;
 	}
 }

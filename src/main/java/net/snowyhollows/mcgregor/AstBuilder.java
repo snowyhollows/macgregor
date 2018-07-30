@@ -45,7 +45,7 @@ public class AstBuilder {
 	private static ComponentDescription doTextNode(TextNode node) {
 		ComponentDescription componentDescription = new ComponentDescription();
 		componentDescription.setName("##text");
-		componentDescription.setAttributes(Collections.singletonMap("text", node.getWholeText().replace("\n","\\n")));
+		componentDescription.setAttributes(Collections.singletonMap("text", node.text().replace("\n","\\n")));
 		componentDescription.setChildren(Collections.emptyList());
 		return componentDescription;
 	}

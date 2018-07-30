@@ -10,59 +10,143 @@
 package net.snowyhollows.mcgregor.tag;
 
 import java.io.IOException;
-import java.io.Writer;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.snowyhollows.mcgregor.Event;
+import net.snowyhollows.mcgregor.tag.helper.AttributesWriter;
+import net.snowyhollows.mcgregor.tag.helper.HtmlWriter;
+import sun.net.www.content.text.Generic;
 
 /**
  * @author efildre
  */
-public class GenericTag extends AbstractTag {
+public class GenericTag implements Container, HasAttributes {
 	private String tagName;
+	private String classNames;
+	private String value;
+	private Event.EventListener onclick;
+	private Event.EventListener onchange;
+	private String key;
+	private boolean selected;
+	private Map<String, String> genericAttributes;
+	private List<Component> children;
 
-	public void render(Writer out)
-			throws IOException {
-		render(tagName, out);
+	private Map<String, String> genericAttributes() {
+		if (genericAttributes == null) {
+			genericAttributes = new HashMap<>(8);
+		}
+		return genericAttributes;
 	}
 
-	void render(String tagName, Writer out)
-			throws IOException {
-		out.append('<');
-		out.append(tagName);
-		out.append(' ');
-		renderAttributes(out);
-		out.append('>');
+	public GenericTag setGenericAttr(String key, String value) {
+		genericAttributes().put(key, value);
+		return this;
+	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public GenericTag setValue(String value) {
+		this.value = value;
+		return this;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public GenericTag setSelected(boolean selected) {
+		this.selected = selected;
+		return this;
+	}
+
+	public String getClassNames() {
+		return classNames;
+	}
+
+	public GenericTag setClassNames(String classNames) {
+		this.classNames = classNames;
+		return this;
+	}
+
+	public Event.EventListener getOnclick() {
+		return onclick;
+	}
+
+	public GenericTag setOnclick(Event.EventListener onclick) {
+		this.onclick = onclick;
+		return this;
+	}
+
+	public Event.EventListener getOnchange() {
+		return onchange;
+	}
+
+	public GenericTag setOnchange(Event.EventListener onchange) {
+		this.onchange = onchange;
+		return this;
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	@Override
+	public void render(HtmlWriter out) throws IOException {
+
+		out.startTag(tagName);
+		AttributesWriter attrs = out.writeAttributes();
+		renderAttributes(attrs);
 		if (getChildren() != null) {
-			renderChildren(out);
+			for (Component component : getChildren()) {
+				component.render(out);
+			}
 		}
-		out.append("</");
-		out.append(tagName);
-		out.append('>');
-
+		out.endTag(tagName);
 	}
 
-	void renderAttributes(Writer out)
-			throws IOException {
-		if (getId() != null && !getId().equals("")) {
-			renderAttribute(out, "id", getId());
+	@Override
+	public void renderAttributes(AttributesWriter attrs) throws IOException {
+		if (getKey() != null && !getKey().equals("")) {
+			attrs.writeAttribute("data-key", getKey());
 		}
-		renderAttribute(out,"class", getClassNames());
-		renderAttribute(out,"style", getStyle());
+		attrs.writeAttribute("class", getClassNames());
+		String filteredEvents = "";
 		if (this.getOnclick() != null) {
-			renderAttribute(out, "onclick", "mc_click('" + this.getKey() + "')");
+			filteredEvents += ":click";
+		}
+		if (this.getOnchange() != null) {
+			filteredEvents += ":onchange";
+		}
+		if (!filteredEvents.equals("")) {
+			attrs.writeAttribute("data-events", filteredEvents);
+		}
+		if (this.value != null) {
+			attrs.writeAttribute( "value", this.value);
+		}
+		if (selected) {
+			attrs.writeAttribute("selected","selected");
+		}
+		if (genericAttributes != null) {
+			for (Map.Entry<String, String> stringStringEntry : genericAttributes.entrySet()) {
+				attrs.writeAttribute(stringStringEntry.getKey(), stringStringEntry.getValue());
+			}
 		}
 	}
 
-	void renderAttribute(Writer out, String attr, String val)
-			throws IOException {
-		if (val == null) return;
-		out.append(attr);
-		out.append('=');
-		out.append('"');
-		out.append(val);
-		out.append('"');
+	@Override
+	public boolean isIdentifiableOnClient() {
+		return false;
+	}
+
+	@Override
+	public GenericTag setKey(String key) {
+		this.key = key;
+		return this;
 	}
 
 	public String getTagName() {
@@ -75,37 +159,13 @@ public class GenericTag extends AbstractTag {
 	}
 
 	@Override
-	public GenericTag setId(String id) {
-		return (GenericTag) super.setId(id);
-	}
-
-	@Override
-	public GenericTag setClassNames(String classNames) {
-		return (GenericTag) super.setClassNames(classNames);
-	}
-
-	@Override
-	public GenericTag setStyle(String style) {
-		return (GenericTag) super.setStyle(style);
-	}
-
-	@Override
-	public GenericTag setOnclick(Event.EventListener onclick) {
-		return (GenericTag) super.setOnclick(onclick);
-	}
-
-	@Override
-	public GenericTag setOnchange(Event.EventListener onchange) {
-		return (GenericTag) super.setOnchange(onchange);
-	}
-
-	@Override
-	public GenericTag setKey(String key) {
-		return (GenericTag) super.setKey(key);
+	public List<Component> getChildren() {
+		return children;
 	}
 
 	@Override
 	public GenericTag setChildren(List<Component> children) {
-		return (GenericTag) super.setChildren(children);
+		this.children = children;
+		return this;
 	}
 }

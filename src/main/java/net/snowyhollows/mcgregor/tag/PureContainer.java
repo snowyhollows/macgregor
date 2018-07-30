@@ -9,6 +9,8 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import net.snowyhollows.mcgregor.tag.helper.HtmlWriter;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
@@ -19,13 +21,7 @@ import java.util.List;
 public class PureContainer implements Container {
 	private List<Component> children;
 
-	@Override
-	public void render(Writer out)
-			throws IOException {
-		renderChildren(out);
-	}
-
-	void renderChildren(Writer out)
+	void renderChildren(HtmlWriter out)
 			throws IOException {
 		for (Component component : getChildren()) {
 			component.render(out);
@@ -41,5 +37,15 @@ public class PureContainer implements Container {
 	public PureContainer setChildren(List<Component> children) {
 		this.children = children;
 		return this;
+	}
+
+	@Override
+	public void render(HtmlWriter out) throws IOException {
+		renderChildren(out);
+	}
+
+	@Override
+	public boolean isIdentifiableOnClient() {
+		return false;
 	}
 }

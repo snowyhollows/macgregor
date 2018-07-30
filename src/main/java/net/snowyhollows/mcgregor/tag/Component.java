@@ -9,6 +9,8 @@
  */
 package net.snowyhollows.mcgregor.tag;
 
+import net.snowyhollows.mcgregor.tag.helper.HtmlWriter;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.function.Consumer;
@@ -25,7 +27,9 @@ public interface Component {
 		return null;
 	}
 
-	void render(Writer out) throws IOException;
+	void render(HtmlWriter out) throws IOException;
+
+	boolean isIdentifiableOnClient();
 
 	default void visit(Consumer<Component> consumer) {
 		consumer.accept(this);
